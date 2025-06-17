@@ -47,7 +47,7 @@ public class SecurityConfig {
                 // 2. 配置 URL 的授权规则
                 .authorizeHttpRequests(authz -> authz
                         // 允许匿名访问用户注册接口
-                        .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/courses").permitAll()
                         // 其他所有请求都需要身份验证
                         .anyRequest().authenticated()
                 )
