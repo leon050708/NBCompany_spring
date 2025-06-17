@@ -28,8 +28,23 @@
         SELECT * FROM biz_news WHERE id = #{id}
     </select>
 
-    <select id="findAll" resultMap="BaseResultMap">
-        SELECT * FROM biz_news ORDER BY id DESC
+    <select id="findList" parameterType="org.example.nbcompany.dto.NewsQueryDto" resultMap="BaseResultMap">
+        SELECT * FROM biz_news
+        <where>
+            <if test="title != null and title != ''">
+                AND title LIKE CONCAT('%', #{title}, '%')
+            </if>
+            <if test="authorName != null and authorName != ''">
+                AND author_name LIKE CONCAT('%', #{authorName}, '%')
+            </if>
+            <if test="companyId != null">
+                AND company_id = #{companyId}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY created_at DESC
     </select>
 
     <update id="update">
