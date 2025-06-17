@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.nbcompany.dao.BizMeetingDao">
+
+    <resultMap id="BaseResultMap" type="org.example.nbcompany.entity.BizMeeting">
+        <id property="id" column="id" />
+        <result property="meetingName" column="meeting_name" />
+        <result property="startTime" column="start_time" />
+        <result property="endTime" column="end_time" />
+        <result property="coverImageUrl" column="cover_image_url" />
+        <result property="content" column="content" />
+        <result property="location" column="location" />
+        <result property="organizer" column="organizer" />
+        <result property="agenda" column="agenda" />
+        <result property="speakers" column="speakers" />
+        <result property="creatorId" column="creator_id" />
+        <result property="creatorName" column="creator_name" />
+        <result property="companyId" column="company_id" />
+        <result property="status" column="status" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, meeting_name, start_time, end_time, cover_image_url, content, location, organizer, agenda, speakers, creator_id, creator_name, company_id, status, created_at, updated_at
+    </sql>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" /> FROM biz_meeting WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" /> FROM biz_meeting ORDER BY start_time DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO biz_meeting
+        (meeting_name, start_time, end_time, cover_image_url, content, location, organizer, agenda, speakers, creator_id, creator_name, company_id, status, created_at, updated_at)
+        VALUES
+            (#{meetingName}, #{startTime}, #{endTime}, #{coverImageUrl}, #{content}, #{location}, #{organizer}, #{agenda}, #{speakers}, #{creatorId}, #{creatorName}, #{companyId}, #{status}, NOW(), NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE biz_meeting
+        <set>
+            <if test="meetingName != null">meeting_name = #{meetingName},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="coverImageUrl != null">cover_image_url = #{coverImageUrl},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="organizer != null">organizer = #{organizer},</if>
+            <if test="agenda != null">agenda = #{agenda},</if>
+            <if test="speakers != null">speakers = #{speakers},</if>
+            <if test="status != null">status = #{status},</if>
+            updated_at = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM biz_meeting WHERE id = #{id}
+    </delete>
+
+</mapper>
